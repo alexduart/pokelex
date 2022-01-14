@@ -11,6 +11,13 @@ html{
 	font-family: 'Nunito', sans-serif;
 }
 
+/*********/
+pre{
+	background-color: #cdcdcd;
+	color: #666;
+}
+/*********/
+
 :root {
 	--bg: #FFF;
 	--bg-header: #DC0A2D;
@@ -184,6 +191,7 @@ header .search .btn-search{
 	gap:  15px 15px;
 	margin: 25px;
 	justify-content: center;
+	width: 100%;
 }
 .container .pokemons{
 	flex: 0 0 60%;
@@ -223,6 +231,7 @@ header .search .btn-search{
 	font-size: 3.0rem;
 	font-weight: bold;
 	z-index: 9999;
+	text-transform: uppercase;
 }
 .container .pokemons .numero{
 	position: relative;
@@ -243,6 +252,7 @@ header .search .btn-search{
 	border-radius: 15px;
 	text-align: center;
 	z-index: 9999;
+	margin-top: 5px;
 }
 .container .pokemons .imagem{
 	position: relative;
