@@ -186,20 +186,20 @@ header .search .btn-search{
 	justify-content: center;
 }
 .container .pokemons{
-	flex: 0 0 100%;
+	flex: 0 0 60%;
 	border: 0px solid #000;
-	height: 150px;
+	height: 350px;
 	border-radius: 15px;
 	background-color: #f7f7f7;
-	padding: 10px;
+	padding: 15px;
 	position: relative;
 }
 .container .pokemons::after{
 	content: "";
 	background-image: url('../img/simbol-pokeball.png');
-	background-size: 170px;
+	background-size: 230px;
 	background-repeat: no-repeat;
-	background-position: top 30px right -25px;
+	background-position: top 160px right -30px;
 	opacity: 0.1;
 	top: 0;
 	left: 0;
@@ -208,12 +208,7 @@ header .search .btn-search{
 	position: absolute;
 	border: 0px solid #000;
 }
-@media only screen and (min-width: 600px) {
-	.container .pokemons{
-		flex: 0 0 22.5%;
-		border:  0px solid #000;
-	}
-}
+
 .container .pokemons .info{
 	width: 59%;
 	border:  0px solid #000;
@@ -225,14 +220,14 @@ header .search .btn-search{
 	position: relative;
 	top: 0;
 	color: var(--cor-fonte);
-	font-size: 1.2rem;
+	font-size: 3.0rem;
 	font-weight: bold;
 	z-index: 9999;
 }
 .container .pokemons .numero{
 	position: relative;
 	color: var(--cor-fonte);
-	font-size: 1.2rem;
+	font-size: 2.0rem;
 	opacity: .5;
 	font-weight: bold;
 	z-index: 9999;
@@ -240,7 +235,7 @@ header .search .btn-search{
 .container .pokemons .tipo{
 	position: relative;
 	color: var(--cor-fonte);
-	font-size: .8rem;
+	font-size: 2.0rem;
 	font-weight: bold;
 	background-color: #cdcdcd;
 	width: 50%;
@@ -263,4 +258,24 @@ header .search .btn-search{
 	max-height: 150px;
 	bottom: 0;
 	right: 0;
+}
+@media only screen and (min-width: 1024px) {
+	.container .pokemons::after{
+		background-size: 170px;
+		background-position: top 130px right -25px;
+	}
+	.container .pokemons{
+		flex: 0 0 22.5%;
+		border:  0px solid #000;
+		height: 250px;
+	}
+	.container .pokemons .nome{
+		font-size: 1.2rem;
+	}
+	.container .pokemons .numero{
+		font-size: 1.2rem;
+	}
+	.container .pokemons .tipo{
+		font-size: .8rem;
+	}
 }
