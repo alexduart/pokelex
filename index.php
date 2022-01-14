@@ -36,63 +36,58 @@ use GuzzleHttp\Client;
 		</div>
 	</header>
 
-	<?php
-	function debug($a){
-		echo '<pre>';
-		print_r($a);
-		echo '</pre>';
-	}
-
-	function listaPokemon($offset = 0, $limit = 10){
-		$url_base 		= "https://pokeapi.co/api/v2/";
-		$headers        = array("Content-Type" => "application/json");
-		$form_params 	= '{}';
-		$client = new Client([
-			'base_uri'    	=> $url_base,
-			'headers'       => $headers,
-			'timeout'       => 10.0
-		]);
-
-		$return = $client->request('GET', 'pokemon?offset='.$offset.'&limit='.$limit, ['debug' => false, 'body' => $form_params, 'http_errors' => true] );
-		$codRetorno       = $return->getStatusCode();
-		return $body 			  = json_decode($return->getBody());
-	}
-
-	function dadosPokemon($url){
-		$url_base 		= $url;
-		$headers        = array("Content-Type" => "application/json");
-		$form_params 	= '{}';
-		$client = new Client([
-			'base_uri'    	=> $url_base,
-			'headers'       => $headers,
-			'timeout'       => 10.0
-		]);
-
-		$return = $client->request('GET', '', ['debug' => false, 'body' => $form_params, 'http_errors' => true] );
-		$codRetorno       = $return->getStatusCode();
-		return $body 			  = json_decode($return->getBody());
-	}
-
-	$pokemons 		= listaPokemon(0, 640);
-	?>
-
 	<div class="container">
-		<?php foreach($pokemons->results as $pokemon){
-				$dados = dadosPokemon($pokemon->url);
-		?>
-			<div class="pokemons">
-				<div class="info">
-					<span class="numero">#<?php echo str_pad($dados->game_indices[3]->game_index, 3, 0, STR_PAD_LEFT)  ?></span><br>
-					<span class="nome"><?php echo $pokemon->name; ?></span>
-					<?php foreach($dados->types as $tipo){ ?>
-					<div class="tipo"><?php echo $tipo->type->name ?></div>
-					<?php } ?>
-				</div>
-				<div class="imagem">
-					<div><img src="<?php echo $dados->sprites->other->dream_world->front_default ?>" alt=""></div>
-				</div>
+		<!--<div class="pokemons">
+			<div class="info">
+				<span class="numero">#000</span><br>
+				<span class="nome">Pokemon</span>
+				<div class="tipo">tipo</div>
 			</div>
-		<?php } ?>
+			<div class="imagem">
+				<div><img src="" alt=""></div>
+			</div>
+		</div>-->
 	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=3',
+				method: 'GET'
+			}).done(function(resp){
+				$.each(resp.results, function(i,item){
+					var id;
+					var a = $.ajax({
+						url: item.url,
+						method: 'GET',
+						success: (response) => {
+							$.each(response, function(i,dados){
+								//console.log('#', dados);
+								id = dados.id;
+							})
+							console.log('#', id);
+						}
+					})
+					/*var a = $.getJSON(item.url, (response) => {
+						id = response.id;
+					})*/
+
+
+					var pokemon = '<div class="pokemons">'+
+					'<div class="info">'+
+					'<span class="numero">#'+id+'</span><br>'+
+					'<span class="nome">'+item.name+'</span>'+
+					'<div class="tipo">tipo</div>'+
+					'</div>'+
+					'<div class="imagem">'+
+					'<div><img src="" alt=""></div>'+
+					'</div>'+
+					'</div>' ;
+					$(pokemon).appendTo('.container');
+				})
+
+			})
+		});
+	</script>
 </body>
 </html>
