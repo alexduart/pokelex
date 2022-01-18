@@ -16,6 +16,48 @@ pre{
 	background-color: #cdcdcd;
 	color: #666;
 }
+.loading{
+	position: absolute;
+	/*background-color: #f7f7f7;*/
+	z-index: 999999;
+	text-align: center;
+	-webkit-animation: fadeOut 3s;
+    animation: fadeOut 3s;
+    animation-fill-mode: forwards;
+}
+.loading img{
+	-webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+    opacity: .5;
+}
+@-moz-keyframes spin {
+    100% { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform:rotate(360deg);
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% { opacity: 1;}
+    99% { opacity: 0.01;}
+    100% { opacity: 0;}
+    from {bottom: 0px; right: -50px; width: 100%}
+    to   {bottom: -40px; right: -50px; width: 230px}
+} 
+@keyframes fadeOut {
+    0% { opacity: 1;}
+    99% { opacity: 0.01;}
+    100% { opacity: 0;}
+    from {bottom: 0px; right: -50px; width: 100%}
+    to   {bottom: -40px; right: -50px; width: 230px}
+}
 /*********/
 
 :root {

@@ -36,58 +36,68 @@ use GuzzleHttp\Client;
 		</div>
 	</header>
 
-	<div class="container">
-		<!--<div class="pokemons">
-			<div class="info">
-				<span class="numero">#000</span><br>
-				<span class="nome">Pokemon</span>
-				<div class="tipo">tipo</div>
-			</div>
-			<div class="imagem">
-				<div><img src="" alt=""></div>
-			</div>
-		</div>-->
-	</div>
+	<div class="container"></div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script>
+
 		$(document).ready(function() {
+			function pad (str, max) {
+				str = str.toString();
+				return str.length < max ? pad("0" + str, max) : str;
+			}
+
+			function fadeOut(element,time){
+				processa(element,time,100,0);
+			}
+
+			let dadosPokemon = [];
 			$.ajax({
-				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=3',
-				method: 'GET'
+				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=17',
+				method: 'GET',
+				dataType:"json",
+				async: false,
 			}).done(function(resp){
 				$.each(resp.results, function(i,item){
-					var id;
-					var a = $.ajax({
-						url: item.url,
-						method: 'GET',
-						success: (response) => {
-							$.each(response, function(i,dados){
-								//console.log('#', dados);
-								id = dados.id;
-							})
-							console.log('#', id);
-						}
-					})
-					/*var a = $.getJSON(item.url, (response) => {
-						id = response.id;
-					})*/
-
-
-					var pokemon = '<div class="pokemons">'+
-					'<div class="info">'+
-					'<span class="numero">#'+id+'</span><br>'+
-					'<span class="nome">'+item.name+'</span>'+
-					'<div class="tipo">tipo</div>'+
-					'</div>'+
-					'<div class="imagem">'+
-					'<div><img src="" alt=""></div>'+
-					'</div>'+
-					'</div>' ;
-					$(pokemon).appendTo('.container');
+					dadosPokemon[i] = item;
 				})
+			});
 
-			})
+			$.each(dadosPokemon, function(i,item){
+				let id;
+				let img;
+				let tipos;
+				$.ajax({
+					url: item.url,
+					method: 'GET',
+					async: false
+				}).done(function(resp){
+					id = resp.id;
+					img = resp.sprites.other.dream_world.front_default;
+					tipos = resp.types;
+				});
+
+				//console.log(tipos);
+
+				var loading = '<div class="loading"><img src="assets/img/simbol-pokeball.png" width="80%" alt=""></div>';
+
+				var pokemon = '<div class="pokemons">'+
+				loading+
+				'<div class="info">'+
+				'<span class="numero">#'+pad(id,3)+'</span><br>'+
+				'<span class="nome">'+item.name+'</span>';
+				$.each(tipos, function(a, tipos){
+					pokemon = pokemon + '<div class="tipo">'+tipos.type.name+'</div>';
+				});
+				pokemon = pokemon + '</div>'+
+				'<div class="imagem">'+
+				'<div><img src="'+img+'" alt=""></div>'+
+				'</div>'+
+				'</div>';
+
+				$(pokemon).appendTo('.container');
+			});
 		});
+
 	</script>
 </body>
 </html>
