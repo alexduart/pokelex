@@ -52,7 +52,7 @@ use GuzzleHttp\Client;
 
 			let dadosPokemon = [];
 			$.ajax({
-				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=17',
+				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=150',
 				method: 'GET',
 				dataType:"json",
 				async: false,
@@ -71,9 +71,9 @@ use GuzzleHttp\Client;
 					method: 'GET',
 					async: false
 				}).done(function(resp){
-					id = resp.id;
-					img = resp.sprites.other.dream_world.front_default;
-					tipos = resp.types;
+					id 		= resp.id;
+					img 	= resp.sprites.other.dream_world.front_default;
+					tipos 	= resp.types;
 				});
 
 				//console.log(tipos);
@@ -94,7 +94,11 @@ use GuzzleHttp\Client;
 				'</div>'+
 				'</div>';
 
-				$(pokemon).appendTo('.container');
+				//$(pokemon).appendTo('.container');
+				$('.container').delay(200).queue(function (next) {
+					$(this).append(pokemon).find('.loading').fadeOut();
+					next();
+				});
 			});
 		});
 
