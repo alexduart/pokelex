@@ -35,11 +35,15 @@ use GuzzleHttp\Client;
 			</form>
 		</div>
 	</header>
-
+	<div class="card"></div>
 	<div class="container"></div>
+	
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script>
-
+		function teste (id) {
+			alert(id);
+		}
 		$(document).ready(function() {
 			function pad (str, max) {
 				str = str.toString();
@@ -49,10 +53,11 @@ use GuzzleHttp\Client;
 			function fadeOut(element,time){
 				processa(element,time,100,0);
 			}
+			
 
 			let dadosPokemon = [];
 			$.ajax({
-				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=150',
+				url: 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=3',
 				method: 'GET',
 				dataType:"json",
 				async: false,
@@ -66,42 +71,52 @@ use GuzzleHttp\Client;
 				let id;
 				let img;
 				let tipos;
+				let weight;
+				let height;
 				$.ajax({
 					url: item.url,
 					method: 'GET',
 					async: false
 				}).done(function(resp){
 					id 		= resp.id;
-					img 	= resp.sprites.other.dream_world.front_default;
+					img 	= "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+id+".png"; //resp.sprites.other.dream_world.front_default;
 					tipos 	= resp.types;
+					weight  = resp.weight;
+					height  = resp.height;
 				});
 
-				//console.log(tipos);
-
 				var loading = '<div class="loading"><img src="assets/img/simbol-pokeball.png" width="80%" alt=""></div>';
-
-				var pokemon = '<div class="pokemons">'+
-				loading+
-				'<div class="info">'+
+				var pokemon = '<div class="pokemons" data-id="'+id+'">'+
+				loading +
+				/*'<div class="info">'+
 				'<span class="numero">#'+pad(id,3)+'</span><br>'+
 				'<span class="nome">'+item.name+'</span>';
 				$.each(tipos, function(a, tipos){
-					pokemon = pokemon + '<div class="tipo">'+tipos.type.name+'</div>';
+					pokemon = pokemon + '<div class="tipo '+tipos.type.name+'">'+tipos.type.name+'</div>';
 				});
-				pokemon = pokemon + '</div>'+
-				'<div class="imagem">'+
-				'<div><img src="'+img+'" alt=""></div>'+
+				pokemon = pokemon +
+				'<div class="size">'+
+				'<div class="weight">'+Intl.NumberFormat().format(weight)+' kg <br> Weight</div>' +
+				'<div class="height">'+Intl.NumberFormat().format(height)+' m <br> Height</div>' +
+				'<div class="clear"></div>' +
 				'</div>'+
+				'</div>'+
+				'<div class="imagem">'+
+				'<div><img src="'+img+'" alt="" onclick="click('+id+')"></div>'+
+				'</div>'+*/
 				'</div>';
 
-				//$(pokemon).appendTo('.container');
-				$('.container').delay(200).queue(function (next) {
+				$('.container').delay(100).queue(function (next) {
 					$(this).append(pokemon).find('.loading').fadeOut();
+					var id = $(this).find('.pokemons:last').attr('data-id')
+					var elemento = $(this).find('.pokemons:last').attr('onclick', 'teste("'+id+'")');
 					next();
 				});
 			});
-		});
 
+
+
+		});
 	</script>
 </body>
 </html>
